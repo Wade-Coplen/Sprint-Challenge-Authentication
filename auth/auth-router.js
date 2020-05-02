@@ -35,7 +35,6 @@ router.post('/login', (req, res) => {
   .first()
   .then(user => {
     if(user && bcrypt.compareSync(password, user.password)) {
-      console.log('compared')
       const token = genToken(user);
       //This is a success message to the user which includes a token
       res.status(200).json({message: `Weclome ${user.name}!`, token})
@@ -44,8 +43,19 @@ router.post('/login', (req, res) => {
     }
   })
   .catch(error => {
-    res.status(500.json(error))
+    res.status(500).json(error)
   })
 });
+function genToken(user) {
+  const payload = {
+    userid: user.id,
+    username: user.username
+  }
+  const options = {
+    expiresIn = '1h'
+  }
+  const token = jwt.sign(payload, secrets.jwtSecret, options)
+  return token;
+}
 
 module.exports = router;
