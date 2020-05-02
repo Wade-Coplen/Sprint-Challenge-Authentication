@@ -7,7 +7,7 @@ const secrets = require('../config/secrets')
 
 
 //this allows us to look up joke data and them the database
-//const Users = require('../some path')
+const Users = require('../some path')
 
 //extract the the user object from the 'req.body'
 //hash the password with bcrypt and store in the user object
@@ -18,6 +18,14 @@ router.post('/register', (req, res) => {
   const user = req.body;
   const hash = bcrypt.hashSync(user.password, 8);
   user.password = hash;
+
+  User.add(user)
+  .then(saved => {
+    res.status(201).json(saved)
+  })
+  .catch(error => {
+    res.status(500).json(error)
+  })
 });
 
 router.post('/login', (req, res) => {
