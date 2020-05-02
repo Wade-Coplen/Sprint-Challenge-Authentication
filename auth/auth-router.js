@@ -7,7 +7,7 @@ const secrets = require('../config/secrets')
 
 
 //this allows us to look up joke data and them the database
-const Users = require('../some path')
+const Users = require('../users/user_model')
 
 //extract the the user object from the 'req.body'
 //hash the password with bcrypt and store in the user object
@@ -30,6 +30,22 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
   // implement login
+  let {username, password} = req.body;
+  Users.findBy({username})
+  .first()
+  .then(user => {
+    if(user && bcrypt.compareSync(password, user.password)) {
+      console.log('compared')
+      const token = genToken(user);
+      //This is a success message to the user which includes a token
+      res.status(200).json({message: `Weclome ${user.name}!`, token})
+    } else {
+      res.status(401).json({message: 'Invalid credentials!'});
+    }
+  })
+  .catch(error => {
+    res.status(500.json(error))
+  })
 });
 
 module.exports = router;
