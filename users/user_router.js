@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     .then(users => {
         res.status(201).json(users)
     })
-    })
+})
 router.get('/me', authenticate, (req, res) => {
     Users.findById(req.decodedJwt.id)
     .then(user => {
