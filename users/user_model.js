@@ -21,18 +21,17 @@ function insert() {
     return db('users')
     .insert(user)
 }
-function findBy(filter){
+function findBy(user){
     return db('users')
-    .where(filter)
+    .where(user)
+    .first()
 }
-// function addUser(user) {
-//     return db('users')
-//     .insert(user)
-//}
+
 
 module.exports = {
     addUser,
     findById,
     find,
-    insert
+    insert,
+    findBy
 }
