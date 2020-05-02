@@ -18,10 +18,11 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-server.use('/api/auth', authRouter);
-// server.use('/users', userRouter);
 server.use('/users', authenticate, userRouter)
-server.use('/api/jokes', authenticate, jokesRouter);
+server.use('/auth', authRouter);
+// server.use('/users', userRouter);
+
+server.use('/jokes', authenticate, jokesRouter);
 
 server.get('/token', (req, res) => {
     const payload = {
