@@ -1,9 +1,9 @@
 const db= require('../database/dbConfig')
 
 async function addUser(user) {
-    const {id} = await db('users')
+    const [id] = await db('users')
         .insert(user)
-    return findbyId(id)
+    return findById(id)
 }
 function findById(id) {
     return db('users')
@@ -32,6 +32,6 @@ module.exports = {
     addUser,
     findById,
     find,
-    insert,
+    // insert,
     findBy
 }

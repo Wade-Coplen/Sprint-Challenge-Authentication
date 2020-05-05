@@ -39,5 +39,7 @@ server.get('/token', (req, res) => {
 
     res.json(token)
 })
-
+server.get('/', (req, res) => {
+    res.status(200).json({message: 'server is up'})
+})
 module.exports = server;
